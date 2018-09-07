@@ -889,6 +889,7 @@ SEAS:AddNewCommand("seas_goto", "goto", "goto: <targetname> - Goes to specified 
 			return SEAS:ShowAdminMessage(ply, "Position was not valid to teleport to. ")
 		end
 		SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick() .. " has TELEPORTED to " .. Player(args[1]):Nick().."'s position."})
+		SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." TELEPORTED to ("..Player(args[1]):SteamID()..") "..Player(args[1]):Nick().."'s location.", "ADMIN CMD")
 	end
 end, false, true)
 
@@ -932,6 +933,7 @@ SEAS:AddNewCommand("seas_bring", "bring", "bring: <targetname> - Brings specifie
 			return SEAS:ShowAdminMessage(ply, "Position was not valid to teleport to. ")
 		end
 		SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick() .. " has BROUGHT " .. Player(args[1]):Nick().." to their position."})
+		SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." BROUGHT ("..Player(args[1]):SteamID()..") "..Player(args[1]):Nick().." to their location.", "ADMIN CMD")
 	end
 end, false, true)
 
@@ -1006,6 +1008,7 @@ SEAS:AddNewCommand("seas_restart", "restartmap", "restartmap: - Restarts the cur
 	end
 	
 	SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick().." has restarted the map.\n The map will restart in: " ..SEAS.MISC.RestartmapDelay.. " seconds."})
+	SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." restarted the map.", "ADMIN CMD")
 	
 	timer.Simple(SEAS.MISC.RestartmapDelay, function()
 		RunConsoleCommand("changelevel", game.GetMap())
@@ -1046,6 +1049,7 @@ SEAS:AddNewCommand("seas_map", "map", "map: <mapname> - Changes to the specified
 		
 		SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, "Admin " ..ply:Nick() .. " has changed the map to " .. args[1].."."})
 		SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, "The map will change in ", Color(255, 2, 2, 255), tostring(delay), Color(255, 255, 255, 255), " "..str.."."})
+		SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." changed the map to: "..args[1], "ADMIN CMD")
 		timer.Simple(delay, function()
 			RunConsoleCommand("changelevel", args[1])
 		end)
@@ -1102,9 +1106,11 @@ SEAS:AddNewCommand("seas_god", "god", "god: <targetname:optional> - Toggles god 
 		
 		if (Player(args[1]):HasGodMode()) then
 			Player(args[1]):GodDisable()
+			SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." DISABLED GODMODE on ("..Player(args[1]):SteamID()..") "..Player(args[1]):Nick()..".", "ADMIN CMD")
 			return SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick().." has DISABLED GODMODE on " ..Player(args[1]):Nick()})
 		else
 			Player(args[1]):GodEnable()
+			SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." ENABLED GODMODE on ("..Player(args[1]):SteamID()..") "..Player(args[1]):Nick()..".", "ADMIN CMD")
 			return SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick().." has ENABLED GODMODE on " ..Player(args[1]):Nick()})
 		end
 	end
@@ -1146,6 +1152,7 @@ SEAS:AddNewCommand("seas_give", "give", "give: <player> <weapon> - Gives the pla
 	if (player.GetByID(args[1])) then
 		Player(args[1]):Give(args[2])
 		SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick().. " has given " ..Player(args[1]):Nick().. " a " ..args[2].."."})
+		SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." FROZE ("..Player(args[1]):SteamID()..") "..Player(args[1]):Nick()..".", "ADMIN CMD")
 	end
 end)
 
@@ -1202,9 +1209,11 @@ SEAS:AddNewCommand("seas_rcon", "rcon", "rcon: - Runs a console command.", "supe
 	if (#args > 1) then
 		RunConsoleCommand(args[1], args[2])
 		SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick().. " has run the console command " ..args[1].. " with argument: " ..args[2].."."})
+		SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." has run the command "..args[1].. " with argument: "..args[2]..".", "ADMIN CMD")
 	else
 		RunConsoleCommand(args[1])
-		SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick().. " has run the console command " ..args[1].. "."})
+		SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick().. " has run the command " ..args[1].. "."})
+		SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") has run the command "..args[1]..".", "ADMIN CMD")
 	end
 		
 end)
@@ -1256,6 +1265,7 @@ SEAS:AddNewCommand("seas_removerank", "removerank", "removerank: <targetname> - 
 			SEAS:Query([[DELETE FROM seas_admin_ranks WHERE steamid = "]]..Player(args[1]):SteamID()..[["]])
 			
 			Player(args[1]):SetUserGroup("user")
+			SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." REMOVED ("..Player(args[1]):SteamID()..") "..Player(args[1]):Nick().."'s rank.", "ADMIN CMD")
 		end
 	end
 end, false, true)
@@ -1305,7 +1315,7 @@ SEAS:AddNewCommand("seas_setrank", "setrank", "setrank: <targetname> <rank> - Se
 			VALUES("]]..Player(args[1]):Nick()..[[", "]]..args[2]..[[", "]]..Player(args[1]):SteamID()..[[")]])
 			
 		SEAS:PrintAll({SEAS.Chat.AdminMsgCol, "[ADMIN] ", color_white, ply:Nick() .. " has set " .. Player(args[1]):Nick().."'s rank to " ..string.upper(args[2])})
-			
+		SEAS:Log("[ADMIN CMD] Admin ("..ply:SteamID()..") "..ply:Nick().." SET ("..Player(args[1]):SteamID()..") "..Player(args[1]):Nick().."'s rank to "..args[2], "ADMIN CMD")	
 		Player(args[1]):SetUserGroup(args[2])
 	end
 end)
@@ -1319,7 +1329,7 @@ end)
 hook.Add("PlayerSay", "SEAS_AdminChatAndMuteCheck", function(ply, cmd, teamchat)
 	local prefix = string.sub(cmd, 1, 1)
 	
-	if (prefix == SEAS.Chat.AdminChatPrefix) then
+	if (prefix == SEAS.Chat.AdminChatPrefix && SEAS.Chat.AdminChatEnabled) then
 		if (SEAS:PermissionChecks(ply, "mod")) then
 			for k, v in pairs(player.GetAll()) do
 				if (SEAS:PermissionChecks(v, "mod")) then
@@ -1346,6 +1356,9 @@ hook.Add("PlayerSay", "SEAS_AdminChatAndMuteCheck", function(ply, cmd, teamchat)
 		SEAS:AddText(ply, SEAS.Chat.PunishCol, "You cannot talk when muted.")
 		return ""
 	end
+	
+	SEAS:Log("[PLAYER CHAT] ("..ply:SteamID()..") "..ply:Nick()..": "..cmd, "CHAT")
+	
 end)
 
 hook.Add("PlayerInitialSpawn", "SEAS_SendCommandsToClient", function(ply)

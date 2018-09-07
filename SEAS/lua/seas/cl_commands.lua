@@ -896,86 +896,44 @@ end
 function SEAS:PrintHelp()
 	local ply = LocalPlayer()
 	local message = "-- AVAILABLE COMMANDS --" 
-	if (SEAS.MISC.UsePowerLevel) then 
-		if (ply:SEAS_HasPower(SEAS.MISC.OwnerPowerLevel)) then
-			print(message)
-			for k, v in pairs (SEAS.CommandHelp["owner"]) do
-				print(v.."\n")
-			end 
-			for k, v in pairs (SEAS.CommandHelp["superadmin"]) do
-				print(v.."\n")
-			end 
-			for k, v in pairs (SEAS.CommandHelp["admin"]) do
-				print(v.."\n")
-			end
-			for k, v in pairs(SEAS.CommandHelp["mod"]) do
-				print(v.."\n")
-			end
-		elseif (ply:SEAS_HasPower(SEAS.MISC.SuperPowerLevel)) then 
-			print(message)
-			for k, v in pairs (SEAS.CommandHelp["superadmin"]) do
-				print(v.."\n")
-			end 
-			for k, v in pairs (SEAS.CommandHelp["admin"]) do
-				print(v.."\n")
-			end
-			for k, v in pairs(SEAS.CommandHelp["mod"]) do
-				print(v.."\n")
-			end
-		elseif(ply:SEAS_HasPower(SEAS.MISC.AdminPowerLevel)) then
-			print(message)
-			for k, v in pairs (SEAS.CommandHelp["admin"]) do
-				print(v.."\n")
-			end
-			for k, v in pairs(SEAS.CommandHelp["mod"]) do
-				print(v.."\n")
-			end
-		elseif(ply:SEAS_HasPower(SEAS.MISC.ModPowerLevel)) then
-			print(message)
-			for k, v in pairs(SEAS.CommandHelp["mod"]) do
-				print(v.."\n")
-			end
+	if (SEAS:PermissionChecks(ply, "owner")) then
+		print(message)
+		for k, v in pairs (SEAS.CommandHelp["owner"]) do
+			print(v.."\n")
+		end 
+		for k, v in pairs (SEAS.CommandHelp["superadmin"]) do
+			print(v.."\n")
+		end 
+		for k, v in pairs (SEAS.CommandHelp["admin"]) do
+			print(v.."\n")
 		end
-	else
-		if (ply:SEAS_IsOwner()) then
-			print(message)
-			for k, v in pairs (SEAS.CommandHelp["owner"]) do
-				print(v.."\n")
-			end 
-			for k, v in pairs (SEAS.CommandHelp["superadmin"]) do
-				print(v.."\n")
-			end 
-			for k, v in pairs (SEAS.CommandHelp["admin"]) do
-				print(v.."\n")
-			end
-			for k, v in pairs(SEAS.CommandHelp["mod"]) do
-				print(v.."\n")
-			end
-		elseif (ply:IsSuperAdmin() || ply:SEAS_IsOwner()) then
-			print(message)
-			for k, v in pairs (SEAS.CommandHelp["superadmin"]) do
-				print(v.."\n")
-			end 
-			for k, v in pairs (SEAS.CommandHelp["admin"]) do
-				print(v.."\n")
-			end
-			for k, v in pairs(SEAS.CommandHelp["mod"]) do
-				print(v.."\n")
-			end
-		elseif (ply:IsAdmin() || ply:SEAS_IsOwner()) then
-			print(message)
-			for k, v in pairs (SEAS.CommandHelp["admin"]) do
-				print(v.."\n")
-			end
-			for k, v in pairs(SEAS.CommandHelp["mod"]) do
-				print(v.."\n")
-			end
-		elseif (ply:SEAS_IsMod()) then
-			print(message)
-			for k, v in pairs (SEAS.CommandHelp["mod"]) do
-				print(v.."\n")
-			end 
+		for k, v in pairs(SEAS.CommandHelp["mod"]) do
+			print(v.."\n")
 		end
+	elseif (SEAS:PermissionChecks(ply, "superadmin")) then
+		print(message)
+		for k, v in pairs (SEAS.CommandHelp["superadmin"]) do
+			print(v.."\n")
+		end 
+		for k, v in pairs (SEAS.CommandHelp["admin"]) do
+			print(v.."\n")
+		end
+		for k, v in pairs(SEAS.CommandHelp["mod"]) do
+			print(v.."\n")
+		end
+	elseif (SEAS:PermissionChecks(ply, "admin")) then
+		print(message)
+		for k, v in pairs (SEAS.CommandHelp["admin"]) do
+			print(v.."\n")
+		end
+		for k, v in pairs(SEAS.CommandHelp["mod"]) do
+			print(v.."\n")
+		end
+	elseif (SEAS:PermissionChecks(ply, "mod")) then
+		print(message)
+		for k, v in pairs (SEAS.CommandHelp["mod"]) do
+			print(v.."\n")
+		end 
 	end
 	
 	timer.Simple(1, function()
