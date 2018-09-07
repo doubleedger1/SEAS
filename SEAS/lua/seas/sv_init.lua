@@ -3,10 +3,10 @@ SEAS.SQL = {}
 
 SEAS.Tables = {}
 
-SEAS.SQL.HOST = "35.240.23.236" // Replace with the IP your database uses. 
-SEAS.SQL.DB = "seasdb" // Replace with the database you use.
-SEAS.SQL.User = "Doubleedge" // Replace with your DB user name. 
-SEAS.SQL.Pass = "Zombified1!" // Replace with your password.
+SEAS.SQL.HOST = "" // Replace with the IP your database uses. 
+SEAS.SQL.DB = "" // Replace with the database you use.
+SEAS.SQL.User = "" // Replace with your DB user name. 
+SEAS.SQL.Pass = "" // Replace with your password.
 SEAS.SQL.Port = 3306 // Replace with the port your database uses. (Usually port 3306) 
 
 // Let's not allow stupid stuff like name; DROP table_name; shall we.
