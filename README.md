@@ -6,6 +6,8 @@
     - There are plans for adding support for SQLite for use of the server db instead in the future hence the use of "if (SEAS.MISC.UseSQL)".
 # How to install
 - Simply add the folder into your garrysmod/garrysmod/addons.
+# Setting it up
+- Fill all the SQL related settings in sv_init.lua.
 
 # Features
 - Over 20 helpful commands to use.
