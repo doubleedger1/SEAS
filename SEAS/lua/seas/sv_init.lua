@@ -389,23 +389,6 @@ if (SEAS.MISC.UseSQL) then
 	
 end
 
-// When the server loads or refreshes, check data.
-function SEAS:Initialize()
-	if (SEAS.SQL.UseSQL) then return end
-	
-	if (!file.Exists("seas", "DATA")) then
-		file.CreateDir("seas/punishments")
-		file.CreateDir("seas/punishments/bans")
-		file.CreateDir("seas/punishments/mutes") 
-		file.CreateDir("seas/punishments/voicemuted")
-		print("[SEAS] Created punishments folders.")
-	end
-	
-	print("[SEAS] Successfully initialised Simple Effective Administration System.")
-		
-end
-hook.Add("Initialize", "SEAS_Initialise", SEAS:Initialize())
-
 // Make sure that others can't hear voicemuted people.
 hook.Add("PlayerCanHearPlayersVoice", "SEAS_CheckVoiceMuted", function(listen, talk)
 	if (talk:SEAS_IsVoiceMuted()) then
