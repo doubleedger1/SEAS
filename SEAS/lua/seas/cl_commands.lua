@@ -31,49 +31,6 @@ function SEAS:AddCommandHelp()
 	end
 end
 
-// Converts the string and compares prop rank check.
-// If you do any custom groups that use permissions
-// then add something like if (user:IsUserGroup("rank"))
-function SEAS:CheckUserRank(rank, user)
-	if (type(rank) != "string") then
-		return false
-	end
-	
-	if (rank == "owner") then
-		if (user:SEAS_IsOwner()) then
-			return true
-		else 
-			return false 
-		end
-	end
-	
-	if (rank == "superadmin") then
-		if (user:IsSuperAdmin() || user:SEAS_IsOwner()) then
-			return true
-		else
-			return false
-		end
-	end
-	
-	if (rank == "admin") then
-		if (user:IsAdmin() || user:SEAS_IsOwner()) then
-			return true
-		else	
-			return false
-		end
-	end
-	
-	if (rank == "mod") then
-		if (user:SEAS_IsMod()) then
-			return true
-		else	
-			return false
-		end
-	end
-	
-	return false
-end
-
 // Used for the quick menu to changemap
 function SEAS:MapRequest()
 	// Frame - Error frame.
